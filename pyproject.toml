@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "antigravity-wakeup"
+version = "0.0.0"
+description = "Wake an idle Antigravity (agy) conversation from another process via agy agentapi send-message."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "non7top" }]
+keywords = ["antigravity", "agy", "wakeup", "push", "agentapi"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "psutil>=5.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8>=6.0.0",
+    "build>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/non7top/antigravity-wakeup"
+Source = "https://github.com/non7top/antigravity-wakeup"
+Issues = "https://github.com/non7top/antigravity-wakeup/issues"
+
+[project.scripts]
+antigravity-wakeup = "antigravity_wakeup.cli:main"
+
+[tool.setuptools]
+packages = ["antigravity_wakeup"]
