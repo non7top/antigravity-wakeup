@@ -60,8 +60,11 @@ class AgyPoker:
         except InvalidEndpoint as e:
             return {"ok": False, "error": str(e)}
 
-        self._endpoint = endpoint
+        previous, self._endpoint = self._endpoint, endpoint
         self.last_error = None
+        if previous is not None and previous.conversation_id != endpoint.conversation_id:
+            # A stale marker would stop the hook from re-priming if the user resumes that conversation.
+            self._marker.remove(previous.conversation_id)
         self._marker.write(endpoint.conversation_id)
         logger.info(f"Primed push into agy conversation {endpoint.conversation_id} via {endpoint.ls_address}.")
         return {"ok": True, "conversation_id": endpoint.conversation_id, "ls_address": endpoint.ls_address}
