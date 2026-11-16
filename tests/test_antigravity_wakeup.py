@@ -272,6 +272,17 @@ class TestAgyPoker(PokerFixture):
         await asyncio.sleep(0.5)
         self.assertFalse(os.path.exists(marker))
 
+    async def test_priming_another_conversation_retires_the_previous_marker(self):
+        await self.control(self.prime_request())
+        await self.control(self.prime_request(conversation_id="conv-2"))
+        self.assertFalse(os.path.exists(os.path.join(self.primed_dir, "conv-1.json")))
+        self.assertTrue(os.path.exists(os.path.join(self.primed_dir, "conv-2.json")))
+
+    async def test_priming_the_same_conversation_again_keeps_its_marker(self):
+        await self.control(self.prime_request())
+        await self.control(self.prime_request())
+        self.assertTrue(os.path.exists(os.path.join(self.primed_dir, "conv-1.json")))
+
     async def test_prime_rejects_unsafe_conversation_id(self):
         reply = await self.control(self.prime_request(conversation_id="../../etc/x"))
         self.assertFalse(reply["ok"])
